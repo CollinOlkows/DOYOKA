@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block title %}Control{% endblock %}
+
+{% block content %}
+
+<img id="stream" />
+
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+<script>
+    const socket = io("http://127.0.0.1:8080");
+
+    socket.on("screenshot_stream", function(data) {
+        const arrayBuffer = new Uint8Array(data).buffer;
+        const blob = new Blob([arrayBuffer], { type: "image/png" });
+        const url = URL.createObjectURL(blob);
+
+        const img = document.getElementById("stream");
+        img.src = url;
+
+        // Cleanup old URLs to avoid memory leaks
+        if (img._oldUrl) URL.revokeObjectURL(img._oldUrl);
+        img._oldUrl = url;
+    });
+</script>
+
+{% endblock %}

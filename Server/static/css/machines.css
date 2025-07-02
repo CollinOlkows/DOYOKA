@@ -1,0 +1,20 @@
+
+.machines_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.machine{
+    background-color: white;
+    height: 8vmax;
+    width: 16vmax;
+}
+
+.machine_info{
+    max-width: 16vmax;
+    text-wrap: wrap;
+}
+
+.Heading{
+    text-align: center;
+}

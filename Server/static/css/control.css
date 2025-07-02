@@ -1,0 +1,35 @@
+.heading{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.screen{
+    background-color: white;
+    height: 621px;
+    width: 1104px;
+}
+.object_wrapper{
+    display: flex;
+    justify-content: center;
+
+}
+
+.option_controls{
+    display: flex;
+    justify-content: center;
+    margin: 1%;
+}
+
+.button_share{
+    background-color: rgb(36, 192, 88);
+    border-color: white;
+    border-radius: 7%;
+    height: 4vmax;
+    width: 20vmax;
+}
+
+.image_class{
+    max-width: 100%;
+    max-height: 100%;
+}

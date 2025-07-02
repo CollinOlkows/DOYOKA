@@ -1,0 +1,14 @@
+.center_text{
+    text-align: center;
+}
+
+.login_form{
+    display: flex;
+    justify-content: center;
+}
+
+.form_div{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}

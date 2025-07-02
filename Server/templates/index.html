@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block title %}DOYOKA2{% endblock %}
+
+{% block content %}
+
+<div>
+    <h1 class="center_text">DOYOKA2</h1>
+    <div class="login_form">
+        <form action="/login" method="POST">
+            <div class="form_div">
+                <input type="text" placeholder="username" class="input_form" id="username" name="username">
+                <input type="password" placeholder="password" class="input_form" id="password" name="password">
+
+                <input type="submit" value="Login">
+            </div>
+            
+
+        </form>
+    </div>
+    
+</div>
+
+{% endblock %}

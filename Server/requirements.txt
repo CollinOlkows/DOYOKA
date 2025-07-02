@@ -1,0 +1,5 @@
+flask
+Flask-SocketIO
+eventlet
+pymongo
+bcrypt

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/machines.css') }}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        if (true){
+
+        
+        var socket = io('http://127.0.0.1:8080/');
+        socket.on('connect', function() {
+            socket.emit('Server_Connection', {data: 'I\'m connected!'});
+        });
+
+        
+
+
+        socket.on('new_agent_created',function(data){
+            console.log('new_agent_created');
+            console.log(data);
+            machine_location = document.getElementById('machines');
+            wrapper = document.createElement('div');
+            wrapper.setAttribute('id', data['sid']);
+
+            link_wrapper = document.createElement('a')
+            link_wrapper.setAttribute('href', '/machine/'+data['sid']);
+
+            image_box = document.createElement('div');
+            image_box.classList.add("machine");
+
+            info = document.createElement('p');
+            info.innerHTML = 'IP: ' + data['ip'] + ' Hostname: ' + data['hostname'] + " sid: " + data['sid'];
+            info.classList.add("machine_info");
+
+            link_wrapper.appendChild(image_box);
+            wrapper.appendChild(link_wrapper);
+            wrapper.appendChild(info);
+            machine_location.appendChild(wrapper);
+            
+        });
+
+        socket.on('Agents',function(data){
+            console.log('Inital Agent Review');
+            console.log(data);
+            agents = JSON.parse(data).agents;
+            document.getElementById('machines').replaceChildren();
+            for(i=0; i < agents.length; i++){
+                agent = agents[i]
+                machine_location = document.getElementById('machines');
+                wrapper = document.createElement('div');
+                wrapper.setAttribute('id', agent['sid']);
+
+                link_wrapper = document.createElement('a')
+                link_wrapper.setAttribute('href', '/machine/'+agent['sid']);
+
+                image_box = document.createElement('div');
+                image_box.classList.add("machine");
+
+                info = document.createElement('p');
+                info.innerHTML = 'IP: ' + agent['ip'] + ' Hostname: ' + agent['hostname'] + " sid: " + agent['sid'];
+                info.classList.add("machine_info");
+
+                link_wrapper.appendChild(image_box);
+                wrapper.appendChild(link_wrapper);
+                wrapper.appendChild(info);
+                machine_location.appendChild(wrapper);
+            }
+        });
+
+        socket.on('agent_disconnect',function(data){
+            console.log('Agent_Removed');
+            console.log(data);
+            agents = JSON.parse(data)
+            document.getElementById(agents.sid).remove()
+        });
+    }
+    </script>
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<div>
+    <h1 class="Heading">Machines</h1>
+    <div id="machines" class="machines_container">
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

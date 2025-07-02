@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block imports %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/control.css') }}">
+{% endblock %}
+
+{% block title %}Control{% endblock %}
+
+{% block content %}
+
+<div>
+    {%if true%}
+    <div class="heading">
+        <p id="sid_value" hidden>{{data['sid']}}</p>
+        <h1>IP: {{data['ip']}}</h1>
+        <h1>Hostname: {{data['hostname']}}</h1>
+    </div>
+    <div class="object_wrapper">
+        <div id="screen" class="screen"><img id="stream" class="image_class"/></div>
+        
+    </div>
+    <div id="option_controls" class="option_controls">
+       <button id="Enable" class="button_share">Enable Screen View</button>
+       <input type="text" id="command_text">
+       <button id="command_send">Send Command</button>
+    </div>
+    <pre id="output_log"></pre>
+
+    <a href="/machines"><button>Back to Machines</button> </a>
+    {%else%}
+    <div class="heading">
+        <p id="sid_value" hidden>srHVW-cbeCE26BaAAAF</p>
+        <h1>IP: 192.168.112.1</h1>
+        <h1>Hostname: DESKTOP-RJRK6SI</h1>
+    </div>
+    <div class="object_wrapper">
+        <div id="screen" class="screen"><img id="stream" /></div>
+        
+    </div>
+    <div id="option_controls" class="option_controls">
+       <button id="Enable" class="button_share">Enable Screen View</button>
+       <input type="text" id="command_text">
+       <button id="command_send">Send Command</button>
+    </div>
+
+    <a href="/machines"><button>Back to Machines</button> </a>
+    
+    {%endif%}
+
+
+</div>
+
+
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+<script>
+    const socket = io("http://127.0.0.1:8080");
+    sid = document.getElementById('sid_value').innerHTML
+    socket.on('connect', function() {
+            socket.emit('Control_Machine', JSON.stringify({room: sid}));
+        });
+
+        
+    socket.on('command_output_log',function(data) {
+        console.log(data)
+        document.getElementById('output_log').innerHTML = ''
+        if('error' in data){
+            document.getElementById('output_log').innerHTML = document.getElementById('output_log').innerHTML + data.error
+        }
+        if('output' in data){
+            document.getElementById('output_log').innerHTML = document.getElementById('output_log').innerHTML + data.output
+        }
+        
+    });
+    socket.on("screenshot_stream", function(data) {
+        const arrayBuffer = new Uint8Array(data).buffer;
+        const blob = new Blob([arrayBuffer], { type: "image/png" });
+        const url = URL.createObjectURL(blob);
+
+        const img = document.getElementById("stream");
+        img.src = url;
+
+        // Cleanup old URLs to avoid memory leaks
+        if (img._oldUrl) URL.revokeObjectURL(img._oldUrl);
+        img._oldUrl = url;
+    });
+    MyButton = document.getElementById('Enable')
+    MyButton.addEventListener('click', function() {
+        sid = document.getElementById('sid_value').innerHTML
+      console.log('sending')
+      console.log(sid)
+      socket.emit('signal_sharing',{room:sid})
+    });
+    CommandButton = document.getElementById('command_send')
+    CommandButton.addEventListener('click', function() {
+        sid = document.getElementById('sid_value').innerHTML;
+        command = document.getElementById('command_text').value
+        console.log(command)
+        socket.emit('execute_command',JSON.stringify({room:sid,command:command}))
+    });
+</script>
+
+{% endblock %}
