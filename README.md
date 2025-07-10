@@ -12,8 +12,10 @@ Note: When setting up the server, ensure you run the add admin python file to cr
 Additionally, change the config "password" to the password for your admin account (Currently it is set to 'password' which is a 
 publicly visible in the readme as its meant to be changed)
 
-The server and bot "IP" are set to localhost (127.0.0.1) and should be updated to reflect the proper address of the machine you will be hosting
-the server files on. A planned feature update will be to have all IP's be updated based on the config file
+Additionally, you should be updating the config to reflect the proper ports and IP's for the socket server (You likely will only need to update
+the socket server URL to reflect the servers machine IP)
+
+You should be in the repo root folder (same as the config) when running the server and bot, otherwise the config file may be out of scope for the other files and cause issues. An exable of running the file could be "python ./Server/server.py". Future updates will include a simple run script
 
 ## Current Features
 
@@ -29,12 +31,12 @@ Account creation with login support
 
 ### Server
 
-- [ ] Refactoring
-    - [ ] Config
-        - [ ] Use for Ports
-        - [ ] Use for IPs
-        - [ ] Use for URLS
-        - [ ] Use for Websocket Domains
+- [X] Refactoring
+    - [X] Config
+        - [X] Use for Ports
+        - [X] Use for IPs
+        - [X] Use for URLS
+        - [X] Use for Websocket Domains
     - [ ] UI Overhaul
     - [ ] Javascript seperated into files rather than inline
     - [ ] All inline CSS removed/seperated 
@@ -61,6 +63,8 @@ Account creation with login support
 
 - [ ] UI Styling Overhaul TBD 
 
+- [ ] Run Script for easy of install and use
+
 ### Bot
 
 - [x] ScreenShare
@@ -68,6 +72,7 @@ Account creation with login support
 - [ ] Persistance
 - [X] Mouse Visibility
 - [ ] Password Monitoring ? 
+- [ ] Timeout and Reconnection if server is down or if the bot gets disconnected
 
 ### Readme
 

@@ -1,0 +1,8 @@
+{
+"admin_username": "AdminUser",
+"password": "password",
+"socket_url": "127.0.0.1",
+"socket_port":8080,
+"server_host": "0.0.0.0",
+"server_port" : 8080
+}

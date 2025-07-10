@@ -53,7 +53,10 @@
 
 <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 <script>
-    const socket = io("http://127.0.0.1:8080");
+    var socket_url = "{{ socket_url }}";
+    var socket_port = {{ socket_port }};
+    var socket_url_full = "http://" + socket_url +":" +socket_port.toString()
+    const socket = io(socket_url_full);
     sid = document.getElementById('sid_value').innerHTML
     socket.on('connect', function() {
             socket.emit('Control_Machine', JSON.stringify({room: sid}));

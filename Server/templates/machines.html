@@ -8,7 +8,10 @@
         if (true){
 
         
-        var socket = io('http://127.0.0.1:8080/');
+        var socket_url = "{{ socket_url }}";
+        var socket_port = {{ socket_port }};
+        var socket_url_full = "http://" + socket_url +":" +socket_port.toString()
+        const socket = io(socket_url_full);
         socket.on('connect', function() {
             socket.emit('Server_Connection', {data: 'I\'m connected!'});
         });
