@@ -39,7 +39,8 @@ Account creation with login support
         - [X] Use for Websocket Domains
     - [ ] UI Overhaul
     - [ ] Javascript seperated into files rather than inline
-    - [ ] All inline CSS removed/seperated 
+    - [ ] All inline CSS removed/seperated
+- [ ] Callback metrics per ip address/machine
 
 - [x] Homepage
     - [x] Login
@@ -72,7 +73,12 @@ Account creation with login support
 - [ ] Persistance
 - [X] Mouse Visibility
 - [ ] Password Monitoring ? 
-- [ ] Timeout and Reconnection if server is down or if the bot gets disconnected
+- [ ] Timeout and Reconnection if server is down or if the bot gets disconnected (polling mode? )
+- [ ] Force Kill Agent & a Kill all agents option
+- [ ] set to polling mode to minimize detection/add a second agent used to switch modes.
+- [ ] Validate Commands Using a set key established on connection.
+- [ ] Bulk Command Execution
+- [ ] WSS?!?
 
 ### Readme
 
